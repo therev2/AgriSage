@@ -1,4 +1,5 @@
 import 'package:agrisage/ColorPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'SignUp.dart';
 
@@ -12,12 +13,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _emailError;
-  String? _passwordError;
   final _formSignInKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
 
-  void _validateAndLogin() {
+  void _validateAndLogin() async {
     if (_formSignInKey.currentState!.validate()) {
       // Proceed with login
       ScaffoldMessenger.of(context).showSnackBar(
@@ -26,9 +25,18 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Color(0xFF4A6572),
         ),
       );
+      await loginUserEmail();
     }
   }
   bool _rememberMe=false;
+
+  Future<void> loginUserEmail() async {
+    try{
+      final  userCredentials= await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+    }on FirebaseAuthException catch(e){
+      print(e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,24 +235,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
 
                       const SizedBox(height: 16.0),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: _rememberMe,
-                            activeColor: ColorPage.accentColor,
-                            onChanged: (value) {
-                              setState(() {
-                                _rememberMe = value ?? false;
-                              });
-                            },
-                          ),
-                          const Text(
-                            "Remember me",
-                            style: TextStyle(
-                              color: ColorPage.textColor,
-                              fontSize: 14,
-                            ),
-                          ),
+                      // Row(
+                      //   children: [
+                      //     Checkbox(
+                      //       value: _rememberMe,
+                      //       activeColor: ColorPage.accentColor,
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           _rememberMe = value ?? false;
+                      //         });
+                      //       },
+                      //     ),
+                      //     const Text(
+                      //       "Remember me",
+                      //       style: TextStyle(
+                      //         color: ColorPage.textColor,
+                      //         fontSize: 14,
+                      //       ),
+                      //     ),
                           // const Spacer(),
                           // TextButton(
                           //   onPressed: () {
@@ -264,8 +272,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           //     ),
                           //   ),
                           // ),
-                        ],
-                      ),
+                      //   ],
+                      // ),
 
                       const SizedBox(height: 30.0),
                       SizedBox(

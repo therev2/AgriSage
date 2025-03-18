@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "948986142226",
+    "project_id": "agrisage-b60eb",
+    "storage_bucket": "agrisage-b60eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948986142226:android:47ad12395fbb34207c02cb",
+        "android_client_info": {
+          "package_name": "com.example.agrisage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_r3SSPotXPiuk-SZ34LQifEkRfmNdlHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

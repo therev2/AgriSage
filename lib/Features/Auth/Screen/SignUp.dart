@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/ColorPage.dart';
 import 'login.dart';
@@ -17,23 +18,26 @@ class _SignUpState extends State<SignUp> {
   final _formSignUpKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
-  bool _agreeToTerms = false;
 
-  void _validateAndSignUp() {
-    if (_formSignUpKey.currentState!.validate() && _agreeToTerms) {
+
+  Future<void> createUserEmail() async {
+    try{
+      final  userCredentials= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
+    }on FirebaseAuthException catch(e){
+      print(e.message);
+    }
+  }
+
+  void _validateAndSignUp() async {
+    if (_formSignUpKey.currentState!.validate() ) {
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Processing registration...'),
           backgroundColor: Color(0xFF4A6572),
         ),
       );
-    } else if (!_agreeToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please agree to terms and conditions'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      await createUserEmail();
     }
   }
 

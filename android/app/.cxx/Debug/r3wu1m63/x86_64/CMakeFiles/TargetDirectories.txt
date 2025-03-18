@@ -1,0 +1,2 @@
+C:/Users/revan/AndroidStudioProjects/agrisage/android/app/.cxx/Debug/r3wu1m63/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/revan/AndroidStudioProjects/agrisage/android/app/.cxx/Debug/r3wu1m63/x86_64/CMakeFiles/rebuild_cache.dir
