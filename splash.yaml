@@ -1,0 +1,11 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+
+  color: "#FFFFFF"
+  image: "lib/assets/AgriSage.png"
+
+  android_12:
+    color: "#FFFFFF"
+    image: "lib/assets/AgriSage.png"
