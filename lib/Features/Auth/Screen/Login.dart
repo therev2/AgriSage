@@ -28,13 +28,29 @@ class _LoginScreenState extends State<LoginScreen> {
       await loginUserEmail();
     }
   }
-  bool _rememberMe=false;
+
+  bool _rememberMe = false;
 
   Future<void> loginUserEmail() async {
-    try{
-      final  userCredentials= await FirebaseAuth.instance.signInWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
-    }on FirebaseAuthException catch(e){
+    try {
+      final userCredentials = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login successful!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
       print(e.message);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -67,12 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-              ClipRRect(  // Add this ClipRRect
-              borderRadius: BorderRadius.only(  // With these borderRadius settings
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            )
-              ),
+                  ClipRRect(
+                      // Add this ClipRRect
+                      borderRadius: BorderRadius.only(
+                    // With these borderRadius settings
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  )),
                   Image.asset(
                     'lib/assets/AgriSage.png',
                     width: screenWidth,
@@ -84,13 +101,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                )
-              ),
-              child:  Padding(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  )),
+              child: Padding(
                 padding: const EdgeInsets.fromLTRB(24.0, 30.0, 24.0, 24.0),
                 child: Form(
                   key: _formSignInKey,
@@ -109,7 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       // Email field
                       const Text(
                         "Email",
@@ -127,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
                           }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
                             return 'Please enter a valid email address';
                           }
                           return null;
@@ -163,7 +182,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
 
@@ -204,7 +224,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.grey.shade600,
                             ),
                             onPressed: () {
@@ -230,7 +252,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
 
@@ -253,25 +276,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       //         fontSize: 14,
                       //       ),
                       //     ),
-                          // const Spacer(),
-                          // TextButton(
-                          //   onPressed: () {
-                          //     // Handle forgot password
-                          //   },
-                          //   style: TextButton.styleFrom(
-                          //     padding: EdgeInsets.zero,
-                          //     minimumSize: const Size(0, 30),
-                          //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          //   ),
-                          //   child: const Text(
-                          //     'Forgot Password?',
-                          //     style: TextStyle(
-                          //       color: ColorPage.accentColor,
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 14,
-                          //     ),
-                          //   ),
-                          // ),
+                      // const Spacer(),
+                      // TextButton(
+                      //   onPressed: () {
+                      //     // Handle forgot password
+                      //   },
+                      //   style: TextButton.styleFrom(
+                      //     padding: EdgeInsets.zero,
+                      //     minimumSize: const Size(0, 30),
+                      //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      //   ),
+                      //   child: const Text(
+                      //     'Forgot Password?',
+                      //     style: TextStyle(
+                      //       color: ColorPage.accentColor,
+                      //       fontWeight: FontWeight.w500,
+                      //       fontSize: 14,
+                      //     ),
+                      //   ),
+                      // ),
                       //   ],
                       // ),
 
@@ -352,11 +375,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (e)=>const SignUp()
-                                  )
-                                );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (e) => const SignUp()));
                               },
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,

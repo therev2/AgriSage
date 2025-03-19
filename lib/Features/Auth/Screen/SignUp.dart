@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/ColorPage.dart';
-import 'login.dart';
+import 'Login.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -14,23 +14,37 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final _formSignUpKey = GlobalKey<FormState>();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
-
   Future<void> createUserEmail() async {
-    try{
-      final  userCredentials= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim());
-    }on FirebaseAuthException catch(e){
+    try {
+      final userCredentials = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Signup successful!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
       print(e.message);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
   void _validateAndSignUp() async {
-    if (_formSignUpKey.currentState!.validate() ) {
-
+    if (_formSignUpKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Processing registration...'),
@@ -153,7 +167,8 @@ class _SignUpState extends State<SignUp> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -173,7 +188,8 @@ class _SignUpState extends State<SignUp> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
                           }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                              .hasMatch(value)) {
                             return 'Please enter a valid email address';
                           }
                           return null;
@@ -209,7 +225,8 @@ class _SignUpState extends State<SignUp> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -250,7 +267,9 @@ class _SignUpState extends State<SignUp> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.grey.shade600,
                             ),
                             onPressed: () {
@@ -276,7 +295,8 @@ class _SignUpState extends State<SignUp> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -317,12 +337,15 @@ class _SignUpState extends State<SignUp> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                               color: Colors.grey.shade600,
                             ),
                             onPressed: () {
                               setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
                               });
                             },
                           ),
@@ -343,7 +366,8 @@ class _SignUpState extends State<SignUp> {
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 16),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -441,7 +465,9 @@ class _SignUpState extends State<SignUp> {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen()),
                                     );
                                   },
                                   child: const Text(
