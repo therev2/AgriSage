@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/ColorPage.dart';
+import '../../Map/Screen/map_screen.dart';
 import 'Login.dart';
 
 class SignUp extends StatefulWidget {
@@ -31,6 +32,10 @@ class _SignUpState extends State<SignUp> {
           content: Text('Signup successful!'),
           backgroundColor: Colors.green,
         ),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MapScreen()),
       );
     } on FirebaseAuthException catch (e) {
       print(e.message);
