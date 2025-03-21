@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '948986142226',
     projectId: 'agrisage-b60eb',
     storageBucket: 'agrisage-b60eb.firebasestorage.app',
+    iosClientId: '948986142226-s4bnmg5ra9u1399obkat9ruko53iui2r.apps.googleusercontent.com',
     iosBundleId: 'com.example.agrisage',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '948986142226',
     projectId: 'agrisage-b60eb',
     storageBucket: 'agrisage-b60eb.firebasestorage.app',
+    iosClientId: '948986142226-s4bnmg5ra9u1399obkat9ruko53iui2r.apps.googleusercontent.com',
     iosBundleId: 'com.example.agrisage',
   );
 
@@ -85,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'agrisage-b60eb.firebasestorage.app',
     measurementId: 'G-3KK56GSG7B',
   );
+
 }
