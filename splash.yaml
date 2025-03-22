@@ -3,9 +3,9 @@ flutter_native_splash:
   ios: true
   web: true
 
-  color: "#FFFFFF"
+  color: "##000000"
   image: "lib/assets/AgriSage.png"
 
   android_12:
-    color: "#FFFFFF"
+    color: "#000000"
     image: "lib/assets/AgriSage.png"

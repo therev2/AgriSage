@@ -12,7 +12,12 @@
           "package_name": "com.example.agrisage"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "948986142226-jcup3gce85jum9i63mq5fdikr1sn74rn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD_r3SSPotXPiuk-SZ34LQifEkRfmNdlHg"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948986142226-jcup3gce85jum9i63mq5fdikr1sn74rn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "948986142226-s4bnmg5ra9u1399obkat9ruko53iui2r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.agrisage"
+              }
+            }
+          ]
         }
       }
     }
