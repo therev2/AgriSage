@@ -318,71 +318,75 @@ class _TasksWidgetState extends State<TasksWidget>
       builder: (context) => AlertDialog(
         title: const Text('Add New Task'),
         content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: 3,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Text('Priority: '),
-                  const SizedBox(width: 8),
-                  DropdownButton<TaskPriority>(
-                    value: _selectedPriority,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedPriority = value!;
-                      });
-                    },
-                    items: TaskPriority.values.map((priority) {
-                      return DropdownMenuItem<TaskPriority>(
-                        value: priority,
-                        child: Text(_getPriorityText(priority)),
-                      );
-                    }).toList(),
+          child: SizedBox(
+            width: 500,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  const Text('Due Date: '),
-                  const SizedBox(width: 8),
-                  TextButton(
-                    child: Text(_formatDate(_selectedDueDate)),
-                    onPressed: () async {
-                      final picked = await showDatePicker(
-                        context: context,
-                        initialDate: _selectedDueDate,
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(const Duration(days: 365)),
-                      );
-                      if (picked != null) {
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Text('Priority: '),
+                    const SizedBox(width: 8),
+                    DropdownButton<TaskPriority>(
+                      value: _selectedPriority,
+                      onChanged: (value) {
                         setState(() {
-                          _selectedDueDate = picked;
+                          _selectedPriority = value!;
                         });
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
+                      },
+                      items: TaskPriority.values.map((priority) {
+                        return DropdownMenuItem<TaskPriority>(
+                          value: priority,
+                          child: Text(_getPriorityText(priority)),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    const Text('Due Date: '),
+                    const SizedBox(width: 8),
+                    TextButton(
+                      child: Text(_formatDate(_selectedDueDate)),
+                      onPressed: () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: _selectedDueDate,
+                          firstDate: DateTime.now(),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 365)),
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            _selectedDueDate = picked;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
