@@ -152,7 +152,7 @@ class PredictionWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Row(
+          Wrap(
             children: [
               Text(
                 '$yield $unit',
@@ -163,6 +163,7 @@ class PredictionWidget extends StatelessWidget {
               ),
               const Spacer(),
               Container(
+                width: 60,
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color:
@@ -336,12 +337,7 @@ class PredictionWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[100],
                 ),
-                child: Center(
-                  child: Image.network(
-                    'https://via.placeholder.com/500x300?text=Soil+Moisture+Forecast+Graph',
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                child: Placeholder(),
               ),
             ),
             const SizedBox(height: 16),

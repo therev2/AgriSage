@@ -90,12 +90,7 @@ class AnalyticsWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Expanded(
-                    child: Center(
-                      child: Image.network(
-                        'https://via.placeholder.com/800x200?text=Yield+Trend+Chart',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: Placeholder(),
                   ),
                 ],
               ),
@@ -151,12 +146,7 @@ class AnalyticsWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Expanded(
-                    child: Center(
-                      child: Image.network(
-                        'https://via.placeholder.com/800x130?text=Resource+Usage+Comparison+Chart',
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: Placeholder(),
                   ),
                 ],
               ),
@@ -188,12 +178,7 @@ class AnalyticsWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Expanded(
-                    child: Image.network(
-                      'https://via.placeholder.com/800x300?text=Field+Performance+Comparison+Chart',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  SizedBox(height: 300, child: Placeholder()),
                 ],
               ),
             ),
@@ -303,14 +288,7 @@ class AnalyticsWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Expanded(
-              child: Center(
-                child: Image.network(
-                  'https://via.placeholder.com/400x150?text=Cost+Breakdown+Pie+Chart',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            SizedBox(height: 130, child: Placeholder()),
           ],
         ),
       ),
@@ -342,14 +320,7 @@ class AnalyticsWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Expanded(
-              child: Center(
-                child: Image.network(
-                  'https://via.placeholder.com/400x150?text=Revenue+by+Crop+Bar+Chart',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            SizedBox(height: 130, child: Placeholder()),
           ],
         ),
       ),

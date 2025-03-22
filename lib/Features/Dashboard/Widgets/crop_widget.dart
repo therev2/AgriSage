@@ -78,12 +78,7 @@ class _CropWidgetState extends State<CropWidget> {
             child: Container(
               height: 200,
               padding: const EdgeInsets.all(16),
-              child: Center(
-                child: Image.network(
-                  'https://via.placeholder.com/800x160?text=Crop+Calendar+Timeline',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: Placeholder(),
             ),
           ),
 

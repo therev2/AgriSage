@@ -55,12 +55,7 @@ class TipsWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://via.placeholder.com/800x400?text=Sustainable+Farming+Practices',
-                      width: double.infinity,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
+                    child: Placeholder(),
                   ),
                   const SizedBox(height: 16),
                   const Text(

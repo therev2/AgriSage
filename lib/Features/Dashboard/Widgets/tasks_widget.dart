@@ -63,7 +63,7 @@ class _TasksWidgetState extends State<TasksWidget>
                 child: DashboardCard(
                   title: 'Task Statistics',
                   child: Container(
-                    height: 100,
+                    height: 120,
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -220,14 +220,16 @@ class _TasksWidgetState extends State<TasksWidget>
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor:
-                    _getPriorityColor(task.priority).withOpacity(0.2),
-                child: Icon(
-                  Icons.flag,
-                  color: _getPriorityColor(task.priority),
-                ),
-              ),
+              leading: MediaQuery.of(context).size.width > 600
+                  ? CircleAvatar(
+                      backgroundColor:
+                          _getPriorityColor(task.priority).withOpacity(0.2),
+                      child: Icon(
+                        Icons.flag,
+                        color: _getPriorityColor(task.priority),
+                      ),
+                    )
+                  : null,
               title: Text(
                 task.title,
                 style: TextStyle(
@@ -242,7 +244,7 @@ class _TasksWidgetState extends State<TasksWidget>
                 children: [
                   Text(task.description),
                   const SizedBox(height: 4),
-                  Row(
+                  Wrap(
                     children: [
                       Icon(Icons.calendar_today,
                           size: 12, color: Colors.grey[600]),

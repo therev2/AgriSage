@@ -76,9 +76,15 @@ class _InventoryWidgetState extends State<InventoryWidget> {
           const SizedBox(height: 16),
 
           // Stats cards
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
+
+          GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isDesktop ? 4 : 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              mainAxisExtent: 120,
+            ),
+            shrinkWrap: true,
             children: [
               _buildStatCard(
                 'Total Items',
@@ -102,7 +108,7 @@ class _InventoryWidgetState extends State<InventoryWidget> {
                 isDesktop ? 280 : size.width * 0.45 - 16,
               ),
               _buildStatCard(
-                'Added This Month',
+                'This Month',
                 '${widget.inventoryService.getAllItems().length > 0 ? 3 : 0}',
                 Icons.date_range,
                 Colors.green,

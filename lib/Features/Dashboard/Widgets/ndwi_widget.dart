@@ -40,12 +40,7 @@ class NdwiWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Image.network(
-              'https://via.placeholder.com/600x400?text=NDWI+Visualization',
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+            SizedBox(height: 200, child: Placeholder()),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

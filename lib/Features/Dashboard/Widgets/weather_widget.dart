@@ -27,244 +27,402 @@ class WeatherWidget extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Current weather
-          DashboardCard(
-            title: 'Current Weather',
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: isDesktop ? 1 : 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Today, June 15',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Icon(
-                                  Icons.wb_sunny,
-                                  size: 60,
-                                  color: Colors.orange,
-                                ),
-                                const SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      '28°C',
-                                      style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Feels like 30°C',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 8),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.orange.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: const Text(
-                                        'Clear Sky',
-                                        style: TextStyle(
-                                          color: Colors.orange,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isDesktop)
+          if (MediaQuery.of(context).size.width < 450)
+            DashboardCard(
+              title: 'Current Weather',
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
                         Expanded(
-                          flex: 1,
+                          flex: isDesktop ? 1 : 1,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                'Details',
+                                'Today, June 15',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(height: 16),
-                              _buildWeatherDetail(
-                                  'Humidity', '65%', Icons.water),
                               const SizedBox(height: 8),
-                              _buildWeatherDetail('Wind', '10 km/h', Icons.air),
-                              const SizedBox(height: 8),
-                              _buildWeatherDetail(
-                                  'Pressure', '1013 hPa', Icons.speed),
-                              const SizedBox(height: 8),
-                              _buildWeatherDetail(
-                                  'UV Index', 'High', Icons.wb_sunny_outlined),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    Icons.wb_sunny,
+                                    size: 60,
+                                    color: Colors.orange,
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        '28°C',
+                                        style: TextStyle(
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const Text(
+                                        'Feels like 30°C',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange.withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: const Text(
+                                          'Clear Sky',
+                                          style: TextStyle(
+                                            color: Colors.orange,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
-                    ],
-                  ),
-                  if (!isDesktop)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 24),
-                        const Text(
-                          'Details',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                        if (isDesktop)
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Details',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                _buildWeatherDetail(
+                                    'Humidity', '65%', Icons.water),
+                                const SizedBox(height: 8),
+                                _buildWeatherDetail(
+                                    'Wind', '10 km/h', Icons.air),
+                                const SizedBox(height: 8),
+                                _buildWeatherDetail(
+                                    'Pressure', '1013 hPa', Icons.speed),
+                                const SizedBox(height: 8),
+                                _buildWeatherDetail('UV Index', 'High',
+                                    Icons.wb_sunny_outlined),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: _buildWeatherDetail(
-                                    'Humidity', '65%', Icons.water)),
-                            Expanded(
-                                child: _buildWeatherDetail(
-                                    'Wind', '10 km/h', Icons.air)),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: _buildWeatherDetail(
-                                    'Pressure', '1013 hPa', Icons.speed)),
-                            Expanded(
-                                child: _buildWeatherDetail('UV Index', 'High',
-                                    Icons.wb_sunny_outlined)),
-                          ],
-                        ),
                       ],
                     ),
-                ],
+                    if (!isDesktop)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 24),
+                          const Text(
+                            'Details',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: _buildWeatherDetail(
+                                      'Humidity', '65%', Icons.water)),
+                              Expanded(
+                                  child: _buildWeatherDetail(
+                                      'Wind', '10 km/h', Icons.air)),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: _buildWeatherDetail(
+                                      'Pressure', '1013 hPa', Icons.speed)),
+                              Expanded(
+                                  child: _buildWeatherDetail('UV Index', 'High',
+                                      Icons.wb_sunny_outlined)),
+                            ],
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
-          ),
 
           const SizedBox(height: 24),
 
           // Weekly forecast
-          DashboardCard(
-            title: '7-Day Forecast',
-            child: Container(
-              height: 200,
-              padding: const EdgeInsets.all(16),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  final date = DateTime.now().add(Duration(days: index));
-                  final dayName =
-                      index == 0 ? 'Today' : _getDayName(date.weekday);
+          if (MediaQuery.of(context).size.width < 450)
+            DashboardCard(
+              title: '7-Day Forecast',
+              child: Container(
+                height: 200,
+                padding: const EdgeInsets.all(16),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                    final date = DateTime.now().add(Duration(days: index));
+                    final dayName =
+                        index == 0 ? 'Today' : _getDayName(date.weekday);
 
-                  return Container(
-                    width: 100,
-                    margin: const EdgeInsets.only(right: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          dayName,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                    return Container(
+                      width: 100,
+                      margin: const EdgeInsets.only(right: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            dayName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Icon(
-                          _getWeatherIcon(index),
-                          size: 32,
-                          color: _getWeatherColor(index),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${25 + index % 5}°C',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          const SizedBox(height: 8),
+                          Icon(
+                            _getWeatherIcon(index),
+                            size: 32,
+                            color: _getWeatherColor(index),
                           ),
-                        ),
-                        Text(
-                          '${20 + index % 5}°C',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
+                          const SizedBox(height: 8),
+                          Text(
+                            '${25 + index % 5}°C',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          _getWeatherCondition(index),
-                          style: const TextStyle(
-                            fontSize: 12,
+                          Text(
+                            '${20 + index % 5}°C',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(height: 8),
+                          Text(
+                            _getWeatherCondition(index),
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
 
-          const SizedBox(height: 24),
-
-          // Agricultural weather insights
-          DashboardCard(
-            title: 'Agricultural Weather Insights',
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+          if (MediaQuery.of(context).size.width > 900)
+            SingleChildScrollView(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildAgriWeatherAlert(
-                    'Irrigation Recommendation',
-                    'Low rainfall expected for next 5 days. Consider irrigation for north field.',
-                    Icons.water_drop,
-                    Colors.blue,
+                  Expanded(
+                    flex: 2,
+                    child: DashboardCard(
+                      title: 'Current Weather',
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Today, June 15',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.wb_sunny,
+                                            size: 60,
+                                            color: Colors.orange,
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Text(
+                                                '28°C',
+                                                style: TextStyle(
+                                                  fontSize: 40,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const Text(
+                                                'Feels like 30°C',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black54,
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    top: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8,
+                                                        vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.orange
+                                                      .withOpacity(0.1),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                child: const Text(
+                                                  'Clear Sky',
+                                                  style: TextStyle(
+                                                    color: Colors.orange,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 24),
+                            const Text(
+                              'Details',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: _buildWeatherDetail(
+                                        'Humidity', '65%', Icons.water)),
+                                Expanded(
+                                    child: _buildWeatherDetail(
+                                        'Wind', '10 km/h', Icons.air)),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: _buildWeatherDetail(
+                                        'Pressure', '1013 hPa', Icons.speed)),
+                                Expanded(
+                                    child: _buildWeatherDetail('UV Index',
+                                        'High', Icons.wb_sunny_outlined)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  _buildAgriWeatherAlert(
-                    'Frost Alert',
-                    'Possible light frost in 3 days. Prepare frost protection for sensitive crops.',
-                    Icons.ac_unit,
-                    Colors.lightBlue,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildAgriWeatherAlert(
-                    'Optimal Spraying Conditions',
-                    'Tomorrow morning offers ideal conditions for pesticide application.',
-                    Icons.grass,
-                    Colors.green,
+                  SizedBox(width: 16),
+                  Expanded(
+                    flex: 5,
+                    child: DashboardCard(
+                      title: '7-Day Forecast',
+                      child: SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 7,
+                          itemBuilder: (context, index) {
+                            final date =
+                                DateTime.now().add(Duration(days: index));
+                            final dayName = index == 0
+                                ? 'Today'
+                                : _getDayName(date.weekday);
+
+                            return Container(
+                              width: 100,
+                              margin: const EdgeInsets.only(right: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    dayName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Icon(
+                                    _getWeatherIcon(index),
+                                    size: 32,
+                                    color: _getWeatherColor(index),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '${25 + index % 5}°C',
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${20 + index % 5}°C',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _getWeatherCondition(index),
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
 
           const SizedBox(height: 24),
 
@@ -277,26 +435,22 @@ class WeatherWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      _buildMapTypeButton('Temperature', true),
-                      const SizedBox(width: 8),
-                      _buildMapTypeButton('Precipitation', false),
-                      const SizedBox(width: 8),
-                      _buildMapTypeButton('Wind', false),
-                      const SizedBox(width: 8),
-                      _buildMapTypeButton('Humidity', false),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: Center(
-                      child: Image.network(
-                        'https://via.placeholder.com/800x400?text=Weather+Map+Visualization',
-                        fit: BoxFit.cover,
-                      ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _buildMapTypeButton('Temperature', true),
+                        const SizedBox(width: 8),
+                        _buildMapTypeButton('Precipitation', false),
+                        const SizedBox(width: 8),
+                        _buildMapTypeButton('Wind', false),
+                        const SizedBox(width: 8),
+                        _buildMapTypeButton('Humidity', false),
+                      ],
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  Expanded(child: Placeholder()),
                 ],
               ),
             ),

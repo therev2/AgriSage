@@ -338,125 +338,67 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 16),
 
           // Quick stats row
-          Wrap(
-            spacing: 16,
-            runSpacing: 16,
-            children: [
-              _buildStatCard(
-                'Active Tasks',
-                _taskService.getActiveTasks().length.toString(),
-                Icons.task_alt,
-                Colors.orange,
-                isDesktop
-                    ? size.width * 0.2
-                    : (isMedium ? size.width * 0.4 : size.width - 48),
-              ),
-              _buildStatCard(
-                'Crops Monitored',
-                _cropService.getAllCrops().length.toString(),
-                Icons.eco,
-                Colors.green,
-                isDesktop
-                    ? size.width * 0.2
-                    : (isMedium ? size.width * 0.4 : size.width - 48),
-              ),
-              _buildStatCard(
-                'Inventory Items',
-                _inventoryService.getAllItems().length.toString(),
-                Icons.inventory_2,
-                Colors.blue,
-                isDesktop
-                    ? size.width * 0.2
-                    : (isMedium ? size.width * 0.4 : size.width - 48),
-              ),
-              _buildStatCard(
-                'Weather',
-                '28°C',
-                Icons.thermostat,
-                Colors.red,
-                isDesktop
-                    ? size.width * 0.2
-                    : (isMedium ? size.width * 0.4 : size.width - 48),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: GridView(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount:
+                    isDesktop ? 4 : 2, // 4 columns on desktop, 2 on mobile
+                crossAxisSpacing: 16, // Spacing between columns
+                mainAxisSpacing: 16,
+                mainAxisExtent: 110, // Set the height of each card here
+              ), // Spacing between rows
+
+              shrinkWrap: true, // Allow GridView to size itself
+              children: [
+                _buildStatCard(
+                  'Active Tasks',
+                  _taskService.getActiveTasks().length.toString(),
+                  Icons.task_alt,
+                  Colors.orange,
+                  isDesktop
+                      ? size.width * 0.2
+                      : (size.width * 0.4).clamp(150.0, size.width - 48),
+                ),
+                _buildStatCard(
+                  'Crops',
+                  _cropService.getAllCrops().length.toString(),
+                  Icons.eco,
+                  Colors.green,
+                  isDesktop
+                      ? size.width * 0.2
+                      : (size.width * 0.4).clamp(150.0, size.width - 48),
+                ),
+                _buildStatCard(
+                  'Inventory',
+                  _inventoryService.getAllItems().length.toString(),
+                  Icons.inventory_2,
+                  Colors.blue,
+                  isDesktop
+                      ? size.width * 0.2
+                      : (size.width * 0.4).clamp(150.0, size.width - 48),
+                ),
+                _buildStatCard(
+                  'Weather',
+                  '28°C',
+                  Icons.thermostat,
+                  Colors.red,
+                  isDesktop
+                      ? size.width * 0.2
+                      : (size.width * 0.4).clamp(150.0, size.width - 48),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 24),
 
-          // Today's tasks and summary
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: isDesktop ? 3 : 1,
-                child: DashboardCard(
-                  title: 'Today\'s Tasks',
-                  child: SizedBox(
-                    height: 300,
-                    child: _buildRecentTasksList(),
-                  ),
-                ),
-              ),
-              if (isDesktop) const SizedBox(width: 16),
-              if (isDesktop)
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      DashboardCard(
-                        title: 'Field Health Summary',
-                        child: Container(
-                          height: 140,
-                          padding: const EdgeInsets.all(16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              _buildHealthIndicator('NDVI', 0.75, Colors.green),
-                              _buildHealthIndicator('NDWI', 0.62, Colors.blue),
-                              _buildHealthIndicator('Soil', 0.82, Colors.brown),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      DashboardCard(
-                        title: 'Upcoming Harvests',
-                        child: Container(
-                          height: 144,
-                          padding: const EdgeInsets.all(8),
-                          child: ListView.builder(
-                            itemCount: _cropService.getAllCrops().length,
-                            itemBuilder: (context, index) {
-                              final crop = _cropService.getAllCrops()[index];
-                              return ListTile(
-                                title: Text(crop.name),
-                                subtitle: Text(
-                                    '${crop.variety} - ${crop.fieldLocation}'),
-                                trailing: Text(
-                                  '${crop.expectedHarvestDate.difference(DateTime.now()).inDays} days',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-            ],
-          ),
-
-          if (!isDesktop) const SizedBox(height: 16),
           if (!isDesktop)
             DashboardCard(
               title: 'Field Health Summary',
               child: Container(
-                height: 140,
-                padding: const EdgeInsets.all(16),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 26),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -465,6 +407,102 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     _buildHealthIndicator('Soil', 0.82, Colors.brown),
                   ],
                 ),
+              ),
+            ),
+
+          if (isDesktop)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                DashboardCard(
+                  title: 'Field Health Summary',
+                  child: Container(
+                    width: 350,
+                    height: 150,
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildHealthIndicator('NDVI', 0.75, Colors.green),
+                        _buildHealthIndicator('NDWI', 0.62, Colors.blue),
+                        _buildHealthIndicator('Soil', 0.82, Colors.brown),
+                      ],
+                    ),
+                  ),
+                ),
+                DashboardCard(
+                  title: 'Upcoming Harvests',
+                  child: Container(
+                    height: 150,
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: 350, // Ensure width is fixed for visibility
+                      child: ListView.builder(
+                        shrinkWrap:
+                            true, // Allows ListView inside a scrollable parent
+                        itemCount: _cropService.getAllCrops().length,
+                        itemBuilder: (context, index) {
+                          final crop = _cropService.getAllCrops()[index];
+                          return ListTile(
+                            title: Text(crop.name),
+                            subtitle:
+                                Text('${crop.variety} - ${crop.fieldLocation}'),
+                            trailing: Text(
+                              '${crop.expectedHarvestDate.difference(DateTime.now()).inDays} days',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 500,
+                  child: DashboardCard(
+                    title: 'Recent Recommendations',
+                    child: Container(
+                      height: 150,
+                      padding: const EdgeInsets.all(16),
+                      child: ListView(
+                        children: const [
+                          ListTile(
+                            leading: Icon(Icons.water_drop, color: Colors.blue),
+                            title: Text('Increase Irrigation'),
+                            subtitle: Text(
+                                'North field showing signs of water stress'),
+                          ),
+                          ListTile(
+                            leading:
+                                Icon(Icons.pest_control, color: Colors.red),
+                            title: Text('Pest Alert'),
+                            subtitle: Text(
+                                'Potential aphid infestation in wheat field'),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.eco, color: Colors.green),
+                            title: Text('Optimal Harvest Time'),
+                            subtitle: Text(
+                                'East field rice approaching optimal harvest window'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+          // Today's tasks and summary
+          if (!isDesktop)
+            DashboardCard(
+              title: 'Today\'s Tasks',
+              child: SizedBox(
+                height: 300,
+                child: _buildRecentTasksList(),
               ),
             ),
 
@@ -504,6 +542,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     Expanded(
                       child: DashboardCard(
+                        title: 'Today\'s Tasks',
+                        child: SizedBox(
+                          height: 300,
+                          child: _buildRecentTasksList(),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: DashboardCard(
                         title: 'Weather Forecast',
                         child: SizedBox(
                           height: 200,
@@ -520,40 +567,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         : Icons.wb_cloudy),
                               );
                             }),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: DashboardCard(
-                        title: 'Recent Recommendations',
-                        child: Container(
-                          height: 200,
-                          padding: const EdgeInsets.all(16),
-                          child: ListView(
-                            children: const [
-                              ListTile(
-                                leading:
-                                    Icon(Icons.water_drop, color: Colors.blue),
-                                title: Text('Increase Irrigation'),
-                                subtitle: Text(
-                                    'North field showing signs of water stress'),
-                              ),
-                              ListTile(
-                                leading:
-                                    Icon(Icons.pest_control, color: Colors.red),
-                                title: Text('Pest Alert'),
-                                subtitle: Text(
-                                    'Potential aphid infestation in wheat field'),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.eco, color: Colors.green),
-                                title: Text('Optimal Harvest Time'),
-                                subtitle: Text(
-                                    'East field rice approaching optimal harvest window'),
-                              ),
-                            ],
                           ),
                         ),
                       ),
@@ -671,10 +684,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               height: 300,
               padding: const EdgeInsets.all(16),
               child: Center(
-                child: Image.network(
-                  'https://via.placeholder.com/800x250?text=Field+Health+Timeline+Chart',
-                  fit: BoxFit.contain,
-                ),
+                child: Placeholder(),
               ),
             ),
           ),
@@ -682,7 +692,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           DashboardCard(
             title: 'Field Selection',
             child: Container(
-              height: 300,
+              height: 350,
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -695,8 +705,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: isDesktop ? 4 : 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                       children: [
                         _buildFieldCard('North Field', 'Wheat', 0.85, 'Good'),
                         _buildFieldCard(
