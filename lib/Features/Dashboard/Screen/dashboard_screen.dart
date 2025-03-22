@@ -39,7 +39,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     'Inventory',
     'Crops',
     'Predictions',
-    'Tips'
+    'Tips',
+    'Analytics' // Added Analytics section
   ];
 
   @override
@@ -308,6 +309,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return const PredictionWidget();
       case 7:
         return const TipsWidget();
+      case 8:
+        return const AnalyticsWidget(); // Added Analytics widget
       default:
         return const Center(child: Text('Section not found!'));
     }
@@ -1002,6 +1005,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return const Icon(Icons.analytics);
       case 7:
         return const Icon(Icons.lightbulb);
+      case 8:
+        return const Icon(Icons.bar_chart); // Added icon for Analytics
       default:
         return const Icon(Icons.error);
     }
