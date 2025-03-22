@@ -73,7 +73,8 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: MarkerId('point_${_polygonPoints.length}'),
           position: location,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         ),
       );
 
@@ -120,7 +121,8 @@ class _MapScreenState extends State<MapScreen> {
     if (_polygonPoints.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please select at least 3 points to define your farm area'),
+          content:
+              Text('Please select at least 3 points to define your farm area'),
           backgroundColor: Colors.red,
         ),
       );
@@ -159,7 +161,6 @@ class _MapScreenState extends State<MapScreen> {
       );
     }
   }
-
 
   double _calculateAreaInHectares() {
     if (_polygonPoints.length < 3) return 0;
@@ -227,8 +228,8 @@ class _MapScreenState extends State<MapScreen> {
               child: Text(
                 _drawingMode
                     ? isFirstPoint
-                    ? 'Tap the map to place your first boundary point'
-                    : 'Continue tapping to add more boundary points (min 3)'
+                        ? 'Tap the map to place your first boundary point'
+                        : 'Continue tapping to add more boundary points (min 3)'
                     : 'Press the pencil icon to begin marking your farm boundary',
                 style: const TextStyle(
                   fontSize: 16,
@@ -263,25 +264,25 @@ class _MapScreenState extends State<MapScreen> {
               children: [
                 _polygonPoints.isNotEmpty
                     ? Column(
-                  children: [
-                    Text(
-                      'Farm Area: ${_calculateAreaInHectares().toStringAsFixed(2)} hectares',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      'Boundary Points: ${_polygonPoints.length}',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                )
+                        children: [
+                          Text(
+                            'Farm Area: ${_calculateAreaInHectares().toStringAsFixed(2)} hectares',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            'Boundary Points: ${_polygonPoints.length}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )
                     : const SizedBox.shrink(),
                 const SizedBox(height: 16),
                 SizedBox(
