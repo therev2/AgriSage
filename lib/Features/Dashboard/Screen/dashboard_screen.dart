@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/Features/Dashboard/Models/task_model.dart';
 import 'package:agrisage/Features/Dashboard/Models/inventory_model.dart';
@@ -16,6 +17,8 @@ import 'package:agrisage/Features/Dashboard/Widgets/prediction_widget.dart';
 import 'package:agrisage/Features/Dashboard/Widgets/tips_widget.dart';
 import 'package:agrisage/Features/Dashboard/Widgets/analytics_widget.dart';
 import 'package:agrisage/ColorPage.dart';
+import '../../Auth/Screen/Login.dart';
+import '../../GeminiChat/gemini_chat_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -42,6 +45,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     'Tips',
     'Analytics' // Added Analytics section
   ];
+
+  void _chat(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const GeminiChatScreen()),
+        );
+    }
 
   @override
   void initState() {
@@ -126,6 +136,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       healthStatus: 'Excellent',
     ));
   }
+  void _signOut(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: ColorPage.primaryColor,
+        backgroundColor: ColorPage.lightYellowGold1,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
@@ -152,10 +169,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.account_circle, color: Colors.white),
-            onPressed: () {
-              // User profile
-            },
+            icon: const Icon(Icons.exit_to_app, color: Colors.white),
+            onPressed: ()=>_signOut(context)
           ),
         ],
       ),
@@ -163,10 +178,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: isDesktop ? _buildDesktopLayout() : _buildMobileLayout(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Implement chat functionality
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Chat functionality coming soon!')),
-          );
+          _chat(context);
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(content: Text('Chat functionality coming soon!')),
+          // );
         },
         backgroundColor: ColorPage.primaryColor,
         child: const Icon(Icons.chat, color: Colors.white),
@@ -310,7 +325,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 7:
         return const TipsWidget();
       case 8:
-        return const AnalyticsWidget(); // Added Analytics widget
+        return const AnalyticsWidget();
       default:
         return const Center(child: Text('Section not found!'));
     }
@@ -343,7 +358,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount:
-                    isDesktop ? 4 : 2, // 4 columns on desktop, 2 on mobile
+                isDesktop ? 4 : 2, // 4 columns on desktop, 2 on mobile
                 crossAxisSpacing: 16, // Spacing between columns
                 mainAxisSpacing: 16,
                 mainAxisExtent: 110, // Set the height of each card here
@@ -439,14 +454,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       width: 350, // Ensure width is fixed for visibility
                       child: ListView.builder(
                         shrinkWrap:
-                            true, // Allows ListView inside a scrollable parent
+                        true, // Allows ListView inside a scrollable parent
                         itemCount: _cropService.getAllCrops().length,
                         itemBuilder: (context, index) {
                           final crop = _cropService.getAllCrops()[index];
                           return ListTile(
                             title: Text(crop.name),
                             subtitle:
-                                Text('${crop.variety} - ${crop.fieldLocation}'),
+                            Text('${crop.variety} - ${crop.fieldLocation}'),
                             trailing: Text(
                               '${crop.expectedHarvestDate.difference(DateTime.now()).inDays} days',
                               style: const TextStyle(
@@ -477,7 +492,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           ListTile(
                             leading:
-                                Icon(Icons.pest_control, color: Colors.red),
+                            Icon(Icons.pest_control, color: Colors.red),
                             title: Text('Pest Alert'),
                             subtitle: Text(
                                 'Potential aphid infestation in wheat field'),
@@ -538,102 +553,102 @@ class _DashboardScreenState extends State<DashboardScreen> {
           // Weather and alerts section
           isDesktop
               ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: DashboardCard(
-                        title: 'Today\'s Tasks',
-                        child: SizedBox(
-                          height: 300,
-                          child: _buildRecentTasksList(),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: DashboardCard(
-                        title: 'Weather Forecast',
-                        child: SizedBox(
-                          height: 200,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: List.generate(5, (index) {
-                              return _buildWeatherDay(
-                                DateTime.now().add(Duration(days: index)),
-                                index == 0 ? 28 : (25 + index),
-                                index == 0
-                                    ? Icons.wb_sunny
-                                    : (index % 2 == 0
-                                        ? Icons.cloud
-                                        : Icons.wb_cloudy),
-                              );
-                            }),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Column(
-                  children: [
-                    DashboardCard(
-                      title: 'Weather Forecast',
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(8),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(7, (index) {
-                            return Container(
-                              width: 100,
-                              margin: const EdgeInsets.all(8),
-                              child: _buildWeatherDay(
-                                DateTime.now().add(Duration(days: index)),
-                                index == 0 ? 28 : (25 + index),
-                                index == 0
-                                    ? Icons.wb_sunny
-                                    : (index % 2 == 0
-                                        ? Icons.cloud
-                                        : Icons.wb_cloudy),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    DashboardCard(
-                      title: 'Recent Recommendations',
-                      child: Container(
-                        height: 200,
-                        padding: const EdgeInsets.all(16),
-                        child: ListView(
-                          children: const [
-                            ListTile(
-                              leading:
-                                  Icon(Icons.water_drop, color: Colors.blue),
-                              title: Text('Increase Irrigation'),
-                              subtitle: Text(
-                                  'North field showing signs of water stress'),
-                            ),
-                            ListTile(
-                              leading:
-                                  Icon(Icons.pest_control, color: Colors.red),
-                              title: Text('Pest Alert'),
-                              subtitle: Text(
-                                  'Potential aphid infestation in wheat field'),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.eco, color: Colors.green),
-                              title: Text('Optimal Harvest Time'),
-                              subtitle: Text(
-                                  'East field rice approaching optimal harvest window'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: DashboardCard(
+                  title: 'Today\'s Tasks',
+                  child: SizedBox(
+                    height: 300,
+                    child: _buildRecentTasksList(),
+                  ),
                 ),
+              ),
+              Expanded(
+                child: DashboardCard(
+                  title: 'Weather Forecast',
+                  child: SizedBox(
+                    height: 200,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: List.generate(5, (index) {
+                        return _buildWeatherDay(
+                          DateTime.now().add(Duration(days: index)),
+                          index == 0 ? 28 : (25 + index),
+                          index == 0
+                              ? Icons.wb_sunny
+                              : (index % 2 == 0
+                              ? Icons.cloud
+                              : Icons.wb_cloudy),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+              : Column(
+            children: [
+              DashboardCard(
+                title: 'Weather Forecast',
+                child: Container(
+                  height: 200,
+                  padding: const EdgeInsets.all(8),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(7, (index) {
+                      return Container(
+                        width: 100,
+                        margin: const EdgeInsets.all(8),
+                        child: _buildWeatherDay(
+                          DateTime.now().add(Duration(days: index)),
+                          index == 0 ? 28 : (25 + index),
+                          index == 0
+                              ? Icons.wb_sunny
+                              : (index % 2 == 0
+                              ? Icons.cloud
+                              : Icons.wb_cloudy),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DashboardCard(
+                title: 'Recent Recommendations',
+                child: Container(
+                  height: 200,
+                  padding: const EdgeInsets.all(16),
+                  child: ListView(
+                    children: const [
+                      ListTile(
+                        leading:
+                        Icon(Icons.water_drop, color: Colors.blue),
+                        title: Text('Increase Irrigation'),
+                        subtitle: Text(
+                            'North field showing signs of water stress'),
+                      ),
+                      ListTile(
+                        leading:
+                        Icon(Icons.pest_control, color: Colors.red),
+                        title: Text('Pest Alert'),
+                        subtitle: Text(
+                            'Potential aphid infestation in wheat field'),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.eco, color: Colors.green),
+                        title: Text('Optimal Harvest Time'),
+                        subtitle: Text(
+                            'East field rice approaching optimal harvest window'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -659,24 +674,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           isDesktop
               ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: const NdviWidget(),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: const NdwiWidget(),
-                    ),
-                  ],
-                )
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: const NdviWidget(),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: const NdwiWidget(),
+              ),
+            ],
+          )
               : Column(
-                  children: const [
-                    NdviWidget(),
-                    SizedBox(height: 16),
-                    NdwiWidget(),
-                  ],
-                ),
+            children: const [
+              NdviWidget(),
+              SizedBox(height: 16),
+              NdwiWidget(),
+            ],
+          ),
           const SizedBox(height: 16),
           DashboardCard(
             title: 'Field Health Timeline',
@@ -806,7 +821,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               decoration: task.isCompleted ? TextDecoration.lineThrough : null,
               fontWeight:
-                  task.isCompleted ? FontWeight.normal : FontWeight.bold,
+              task.isCompleted ? FontWeight.normal : FontWeight.bold,
             ),
           ),
           subtitle: Text(task.description),
@@ -962,7 +977,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: statusColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(10),

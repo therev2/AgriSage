@@ -50,7 +50,6 @@ class _SignUpState extends State<SignUp> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     // Determine if we're on web based on screen width
-    // Typically screen widths over 600dp indicate a tablet or desktop
     bool isWeb = screenWidth > 600;
 
     // For web, constrain the width to a reasonable size
