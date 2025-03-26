@@ -1,3 +1,5 @@
+import 'package:agrisage/secrets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/Features/Dashboard/Models/task_model.dart';
@@ -198,25 +200,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             decoration: BoxDecoration(
               color: ColorPage.primaryColor,
             ),
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.white,
                   child: Icon(Icons.person,
                       size: 40, color: ColorPage.primaryColor),
                 ),
-                SizedBox(height: 10),
-                Text(
-                  'AgriSage',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
@@ -247,12 +241,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             padding: const EdgeInsets.all(16.0),
             children: [
               const SizedBox(height: 20),
+
+              Text(
+                'AgriSage',
+                style: TextStyle(
+                  color: Colors.black26,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 13),
+
               for (int i = 0; i < _sectionTitles.length; i++)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Material(
                     color: _selectedIndex == i
-                        ? ColorPage.primaryColor.withOpacity(0.1)
+                        ? ColorPage.lightYellowGold1
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
                     child: InkWell(

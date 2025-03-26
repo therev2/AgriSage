@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../Dashboard/Screen/dashboard_screen.dart';
 import '../../Map/Screen/map_screen.dart';
 
 class SignUpController {

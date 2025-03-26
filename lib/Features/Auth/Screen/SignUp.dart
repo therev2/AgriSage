@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:agrisage/ColorPage.dart';
+import '../../../secrets.dart';
 import '../Controller/sign_up_controller.dart';
 import 'Login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -27,7 +30,7 @@ class _SignUpState extends State<SignUp> {
     _signUpController = SignUpController(context: context);
   }
 
-  void _validateAndSignUp() {
+  void _validateAndSignUp() async{
     if (_formSignUpKey.currentState!.validate()) {
       // Show processing SnackBar
       ScaffoldMessenger.of(context).showSnackBar(
@@ -41,11 +44,34 @@ class _SignUpState extends State<SignUp> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+       await uploadToDB();
+    }
+  }
+
+  Future<void> uploadToDB() async {
+    try {
+      // Get the current authenticated user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Use the user's UID as the document ID
+        await FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+          "Name": _nameController.text.trim(),
+          "email": _emailController.text.trim()
+        });
+
+        print('User data uploaded successfully');
+      } else {
+        print('No authenticated user found');
+      }
+    } catch (e) {
+      print('Error uploading user data: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 

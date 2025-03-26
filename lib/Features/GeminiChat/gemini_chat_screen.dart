@@ -61,6 +61,8 @@ class _GeminiChatScreenState extends State<GeminiChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isDesktop = size.width > 900;
     return Scaffold(
       backgroundColor: ColorPage.offWhite,
       appBar: AppBar(
@@ -68,10 +70,7 @@ class _GeminiChatScreenState extends State<GeminiChatScreen> {
         backgroundColor: Colors.white,
         title: Row(
           children: [
-            IconButton(onPressed: () { Navigator.pop(context); },
-              icon: Icon(Icons.arrow_back),
-
-            ),
+            if(isDesktop) _wid(),
             Padding(padding: const EdgeInsets.all(8)),
             Container(
               padding: const EdgeInsets.all(8),
@@ -244,6 +243,12 @@ class _GeminiChatScreenState extends State<GeminiChatScreen> {
     );
   }
 
+  Widget _wid(){
+    return IconButton(onPressed: () { Navigator.pop(context); },
+      icon: Icon(Icons.arrow_back),
+
+    );
+  }
 //   Widget _suggestionChip(String text) {
 //     return InkWell(
 //       onTap: () {
