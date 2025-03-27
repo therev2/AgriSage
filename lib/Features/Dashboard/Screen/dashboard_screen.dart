@@ -19,8 +19,10 @@ import 'package:agrisage/Features/Dashboard/Widgets/prediction_widget.dart';
 import 'package:agrisage/Features/Dashboard/Widgets/tips_widget.dart';
 import 'package:agrisage/Features/Dashboard/Widgets/analytics_widget.dart';
 import 'package:agrisage/ColorPage.dart';
+import '../../../secrets.dart';
 import '../../Auth/Screen/Login.dart';
 import '../../GeminiChat/gemini_chat_screen.dart';
+import '../Services/weather_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -33,8 +35,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final TaskService _taskService = TaskService();
   final InventoryService _inventoryService = InventoryService();
   final CropService _cropService = CropService();
+  final WeatherService weatherService = WeatherService(apiKey: Secrets.weatherApiKey);
+  Weather? _weather;
+  ForecastData? _forecast;
+  String _cityName = 'London';
+  bool _isLoading = false;
 
-  // For controlling the active section in mobile view
+  @override
+  void initState() {
+    super.initState();
+    _fetchWeatherData();
+    _loadDummyData();
+  }
+
+  Future<void> _fetchWeatherData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final weather = await weatherService.getWeather(_cityName);
+      final forecast = await weatherService.getForecast(_cityName);
+      setState(() {
+        _weather = weather;
+        _forecast = forecast;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching weather data: $e');
+      _isLoading = false;
+    }
+  }
+
   int _selectedIndex = 0;
   final List<String> _sectionTitles = [
     'Overview',
@@ -54,12 +86,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         MaterialPageRoute(builder: (context) => const GeminiChatScreen()),
         );
     }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadDummyData();
-  }
 
   void _loadDummyData() {
     // Load dummy tasks
@@ -177,7 +203,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       drawer: isDesktop ? null : _buildDrawer(),
-      body: isDesktop ? _buildDesktopLayout() : _buildMobileLayout(),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : isDesktop
+          ? _buildDesktopLayout()
+          : _buildMobileLayout(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _chat(context);
@@ -401,7 +431,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 _buildStatCard(
                   'Weather',
-                  '28°C',
+                  '${_weather?.temperature.toStringAsFixed(1)}°C',
                   Icons.thermostat,
                   Colors.red,
                   isDesktop
@@ -574,20 +604,64 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: DashboardCard(
                   title: 'Weather Forecast',
                   child: SizedBox(
-                    height: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: List.generate(5, (index) {
-                        return _buildWeatherDay(
-                          DateTime.now().add(Duration(days: index)),
-                          index == 0 ? 28 : (25 + index),
-                          index == 0
-                              ? Icons.wb_sunny
-                              : (index % 2 == 0
-                              ? Icons.cloud
-                              : Icons.wb_cloudy),
+                    height: 180, // Increased height
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _forecast!.items.length > 5 ? 5 : _forecast!.items.length,
+                      itemBuilder: (context, index) {
+                        final item = _forecast!.items[index];
+                        return Card(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), // Slightly larger border radius
+                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10), // Added margin between cards
+                          elevation: 3,
+                          child: Container(
+                            width: 150, // Fixed width for more consistent card size
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              gradient: LinearGradient(
+                                colors: [Colors.blue.shade50, Colors.white],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                    '${item.dateTime.hour}:00',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                      color: Colors.black87,
+                                    )
+                                ),
+                                 // Added spacing
+                                Image.network(
+                                  item.getIconUrl(),
+                                  height: 50, // Increased image size
+                                  width: 50,
+                                ),
+
+                                Text(
+                                  '${item.description}',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w300
+                                  ),
+                                ),// Added spacing
+                                Text(
+                                    '${item.temperature.toStringAsFixed(1)}°C',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
                         );
-                      }),
+                      },
                     ),
                   ),
                 ),
@@ -607,14 +681,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       return Container(
                         width: 100,
                         margin: const EdgeInsets.all(8),
-                        child: _buildWeatherDay(
-                          DateTime.now().add(Duration(days: index)),
-                          index == 0 ? 28 : (25 + index),
-                          index == 0
-                              ? Icons.wb_sunny
-                              : (index % 2 == 0
-                              ? Icons.cloud
-                              : Icons.wb_cloudy),
+                        child: ListView.builder(
+                          itemCount: _forecast!.items.length > 18 ? 18 : _forecast!.items.length,
+                          itemBuilder: (context, index) {
+                            final item = _forecast!.items[index];
+                            return Card(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('${item.dateTime.hour}:00', style: const TextStyle(fontWeight: FontWeight.bold)),
+                                    Image.network(item.getIconUrl(), height: 50),
+                                    Text('${item.temperature.toStringAsFixed(1)}°C'),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }),
