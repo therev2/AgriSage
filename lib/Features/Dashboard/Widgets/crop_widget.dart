@@ -31,6 +31,7 @@ class _CropWidgetState extends State<CropWidget> {
     'Moderate',
     'Poor'
   ];
+  // Remove the expanded state variable since we're making it scrollable
 
   @override
   void dispose() {
@@ -76,9 +77,77 @@ class _CropWidgetState extends State<CropWidget> {
           DashboardCard(
             title: 'Crop Calendar',
             child: Container(
-              height: 200,
+              height: 400, // Fixed height container
               padding: const EdgeInsets.all(16),
-              child: Placeholder(),
+              child: Column(
+                children: [
+                  // Fixed upper part showing month names
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    child: Image.asset(
+                      'lib/assets/Dashboard/crop_calendar_upper.png',
+                      width: double.infinity,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+
+                  // Scrollable lower part
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        // Scrollable content
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Image.asset(
+                              'lib/assets/Dashboard/crop_calendar_lower.png',
+                              width: double.infinity,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+
+                        // Gradient overlay at the bottom to indicate scrollability
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.2),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(8),
+                                bottomRight: Radius.circular(8),
+                              ),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 

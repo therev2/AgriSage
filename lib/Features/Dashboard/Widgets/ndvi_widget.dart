@@ -27,7 +27,8 @@ class NdviWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
+      child: Container(
+        height: 415, // Fixed height to match NDWI card
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,15 @@ class NdviWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            SizedBox(height: 200, child: Placeholder()),
+            SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: Image.asset(
+                'lib/assets/Dashboard/ndvi_range.png',
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -55,7 +55,15 @@ class TipsWidget extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Placeholder(),
+                    child: SizedBox(
+                      height: 400,
+                      width: double.infinity,
+                      child: Image.asset(
+                        'lib/assets/Dashboard/farmland.jpg',
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   const Text(

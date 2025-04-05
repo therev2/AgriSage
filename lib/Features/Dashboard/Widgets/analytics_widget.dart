@@ -88,9 +88,14 @@ class AnalyticsWidget extends StatelessWidget {
                       _buildAnalyticsStat('YoY Change', '+8.5%', Colors.orange),
                     ],
                   ),
-                  const SizedBox(height: 24),
-                  Expanded(
-                    child: Placeholder(),
+                  SizedBox(
+                    height: 198,
+                    width: double.infinity,
+                    child: Image.asset(
+                      'lib/assets/Dashboard/farm_analytics.png',
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
                   ),
                 ],
               ),
@@ -267,7 +272,7 @@ class AnalyticsWidget extends StatelessWidget {
     return DashboardCard(
       title: 'Cost Analysis',
       child: Container(
-        height: 300,
+        // height: 300,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,16 +284,16 @@ class AnalyticsWidget extends StatelessWidget {
                 _buildAnalyticsStat('Cost/Hectare', '\$960', Colors.orange),
               ],
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Cost Breakdown',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(height: 130, child: Placeholder()),
+            // const SizedBox(height: 24),
+            // const Text(
+            //   'Cost Breakdown',
+            //   style: TextStyle(
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // const SizedBox(height: 8),
+            // SizedBox(height: 130, child: Placeholder()),
           ],
         ),
       ),
@@ -299,7 +304,7 @@ class AnalyticsWidget extends StatelessWidget {
     return DashboardCard(
       title: 'Revenue Analysis',
       child: Container(
-        height: 300,
+        // height: 300,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,16 +316,16 @@ class AnalyticsWidget extends StatelessWidget {
                 _buildAnalyticsStat('Net Profit', '\$24,250', Colors.blue),
               ],
             ),
-            const SizedBox(height: 24),
-            const Text(
-              'Revenue by Crop',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            SizedBox(height: 130, child: Placeholder()),
+            // const SizedBox(height: 24),
+            // const Text(
+            //   'Revenue by Crop',
+            //   style: TextStyle(
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // const SizedBox(height: 8),
+            // SizedBox(height: 130, child: Placeholder()),
           ],
         ),
       ),
