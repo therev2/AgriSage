@@ -511,7 +511,7 @@ class PredictionWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 const Text(
-                  'Mistral AI Analysis',
+                  'Gemini AI Analysis',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
